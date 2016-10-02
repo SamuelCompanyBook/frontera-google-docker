@@ -14,7 +14,7 @@ kafka docker-compose suppose the ip of the docker host is 192.168.99.100 (you ma
 
 ```
 docker-compose build
-docker-compose up --force-recreate
+docker-compose up
 ```
 After 1 minute of seeing the docker logs you will see: ERROR: An HTTP request took too long to complete.
 This is not a problem, keep going.
