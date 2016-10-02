@@ -10,6 +10,8 @@ docker rm $(docker ps -a -q)
 
 ### start the 3 containers (hbase, kafka, containerWithPython(to run spider + dbw + sw))
 
+kafka docker-compose suppose the ip of the docker host is 192.168.99.100 (you may need to change it)
+
 ```
 docker-compose up --force-recreate
 ```
@@ -23,7 +25,7 @@ docker exec -it fronteragoogledocker_hbase-docker_1 bash -c "echo -e \"create_na
 ```
 
 
-### start the dbw
+### start the dbw (in a new console)
 
 connect to the python container and run dbw
 ```
@@ -31,7 +33,7 @@ docker exec -it fronteragoogledocker_spider_1 bash
 python -m frontera.worker.db --config bc.config.dbw
 ```
 
-### start the sw
+### start the sw (in a new console)
 
 connect to the python container again and run sw
 ```
@@ -39,7 +41,7 @@ docker exec -it fronteragoogledocker_spider_1 bash
 python -m frontera.worker.strategy --config bc.config.sw --partition-id 0
 ```
 
-### start the spider 
+### start the spider (in a new console)
 
 connect to the python container again and run the spide
 ```
