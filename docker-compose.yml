@@ -1,0 +1,45 @@
+version: '2'
+services:
+  hbase-docker:
+    build: scrapinghub-hbase-docker
+    ports:
+      - 16010:16010
+      - 9095:9095
+      - 8085:8085
+      - 9090:9090
+      - 9091:9091
+    networks:
+      - frontera-net
+  kafka:
+    image: spotify/kafka
+    ports:
+      - "9092:9092"
+      - "2181:2181"
+    environment:
+      ADVERTISED_HOST: 192.168.99.100
+      ADVERTISED_PORT: 9092
+    networks:
+      - frontera-net
+  spider:
+    build: frontera
+    ports:
+      - 5550:5550
+    volumes:
+      - ./frontera:/code
+    depends_on:
+      - kafka
+      - hbase-docker
+    networks:
+      - frontera-net
+    stdin_open: true
+    tty: true
+    command: bash
+    #python -m frontera.worker.db --config bc.config.dbw
+    #python -m frontera.worker.strategy --config bc.config.sw --partition-id 0
+    #scrapy crawl bc -L DEBUG -s SEEDS_SOURCE='./seeds.txt' -s SPIDER_PARTITION_ID=0 -s FRONTERA_SETTINGS=bc.config.spider
+
+networks:
+  frontera-net:
+
+
+#docker exec -it fronteragooglemaster_hbase-docker_1 bash -c "echo -e \"create_namespace 'crawler'\nexit\" > commands.hbase && /opt/hbase/bin/hbase shell ./commands.hbase"
