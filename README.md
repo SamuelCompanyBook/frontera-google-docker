@@ -19,7 +19,7 @@ This is not a problem, keep going.
 ### run command to create the hbase crawler db
 
 ```
-docker exec -it fronteragooglemaster_hbase-docker_1 bash -c "echo -e \"create_namespace 'crawler'\nexit\" > commands.hbase && /opt/hbase/bin/hbase shell ./commands.hbase"
+docker exec -it fronteragoogledocker_hbase-docker_1 bash -c "echo -e \"create_namespace 'crawler'\nexit\" > commands.hbase && /opt/hbase/bin/hbase shell ./commands.hbase"
 ```
 
 
@@ -27,7 +27,7 @@ docker exec -it fronteragooglemaster_hbase-docker_1 bash -c "echo -e \"create_na
 
 connect to the python container and run dbw
 ```
-docker exec -it fronteragooglemaster_spider_1 bash
+docker exec -it fronteragoogledocker_spider_1 bash
 python -m frontera.worker.db --config bc.config.dbw
 ```
 
@@ -35,7 +35,7 @@ python -m frontera.worker.db --config bc.config.dbw
 
 connect to the python container again and run sw
 ```
-docker exec -it fronteragooglemaster_spider_1 bash
+docker exec -it fronteragoogledocker_spider_1 bash
 python -m frontera.worker.strategy --config bc.config.sw --partition-id 0
 ```
 
@@ -43,7 +43,7 @@ python -m frontera.worker.strategy --config bc.config.sw --partition-id 0
 
 connect to the python container again and run the spide
 ```
-docker exec -it fronteragooglemaster_spider_1 bash
+docker exec -it fronteragoogledocker_spider_1 bash
 scrapy crawl bc -L DEBUG -s SEEDS_SOURCE='./seeds.txt' -s SPIDER_PARTITION_ID=0 -s FRONTERA_SETTINGS=bc.config.spider
 ```
 
